@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Orion.Case.DataAccess.Abstract;
+using Orion.Case.Entities.Dtos;
 
 namespace Orion.Case.Business.Handlers.TelephoneDirectories.Queries.GetList
 {
@@ -20,11 +21,9 @@ namespace Orion.Case.Business.Handlers.TelephoneDirectories.Queries.GetList
 
             public async Task<IEnumerable<GetListTelephoneDirectoryListItemDto>> Handle(GetListTelephoneDirectoryQuery request, CancellationToken cancellationToken)
             {
-                var list = await _telephoneDirectoryRepository.GetAllAsync(x => x.IsDeleted == false);
+                var list = await _telephoneDirectoryRepository.GetListDetail();
 
-                var response = _mapper.Map<IEnumerable<GetListTelephoneDirectoryListItemDto>>(list);
-
-                return response;
+                return list;
 
             }
         }

@@ -38,7 +38,7 @@ namespace Orion.Case.Business.Handlers.TelephoneDirectories.Commands.Delete
                 var userId = _httpContextAccessor.HttpContext?.User?.Claims.FirstOrDefault(x => x.Type.EndsWith("nameidentifier"))?.Value;
 
                 checkTelephoneDirectory.IsDeleted = true;
-                checkTelephoneDirectory.UpdatedUser = userId;
+                checkTelephoneDirectory.UpdatedUserId = userId;
 
                 await _telephoneDirectoryRepository.UpdateAsync(checkTelephoneDirectory);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);

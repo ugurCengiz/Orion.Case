@@ -50,7 +50,7 @@ namespace Orion.Case.Business.Handlers.TelephoneDirectories.Commands.Create
                     Name = request.Name,
                     LastName = request.LastName,
                     PhoneNumber = request.PhoneNumber,
-                    CreatedUser = userId
+                    CreatedUserId = userId
 
                 };
 

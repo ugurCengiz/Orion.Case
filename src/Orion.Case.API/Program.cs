@@ -9,6 +9,7 @@ using Orion.Case.DataAccess.Abstract;
 using Orion.Case.DataAccess.Concrete;
 using Orion.Case.DataAccess.Contexts;
 using Orion.Case.DataAccess.UnitOfWork;
+using Serilog;
 using Swashbuckle.AspNetCore.Filters;
 
 
@@ -44,10 +45,21 @@ builder.Services.AddMediatR(typeof(CreateTelephoneDirectoryCommand).Assembly);
 builder.Services.AddAutoMapper(typeof(CreateTelephoneDirectoryCommand).Assembly);
 builder.Services.AddValidatorsFromAssembly(typeof(CreateTelephoneDirectoryCommand).Assembly);
 
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
 builder.Services.AddAuthorization();
 
 builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin",
+        builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+});
 
 var app = builder.Build();
 
@@ -57,7 +69,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowOrigin");
 app.MapGroup("/Identity").MapIdentityApi<IdentityUser>();
 
 app.UseHttpsRedirection();

@@ -8,7 +8,7 @@ using Orion.Case.Business.Handlers.TelephoneDirectories.Queries.GetList;
 
 namespace Orion.Case.API.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class TelephoneDirectoriesController : BaseController

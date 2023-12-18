@@ -54,10 +54,11 @@ namespace Orion.Case.Business.Handlers.TelephoneDirectories.Commands.Update
 
                 var userId = _httpContextAccessor.HttpContext?.User?.Claims.FirstOrDefault(x => x.Type.EndsWith("nameidentifier"))?.Value;
 
-                checkTelephoneDirectory.UpdatedUser = userId;
+                checkTelephoneDirectory.UpdatedUserId = userId;
                 checkTelephoneDirectory.Name = request.Name;
                 checkTelephoneDirectory.LastName = request.LastName;
                 checkTelephoneDirectory.PhoneNumber = request.PhoneNumber;
+                checkTelephoneDirectory.UpdatedUserId = userId;
 
                 await _telephoneDirectoryRepository.UpdateAsync(checkTelephoneDirectory);
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
